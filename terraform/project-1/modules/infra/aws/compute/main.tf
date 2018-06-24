@@ -77,7 +77,7 @@ resource "aws_instance" "nodes" {
 }
 
 
-output "user"        { value = "centos" }
+output "user"        { value = "root" }
 output "instance_id" { value = "${aws_instance.nodes.id}" }
 output "private_ip"  { value = "${aws_instance.nodes.private_ip}" }
 output "public_ip"   { value = "${aws_instance.nodes.public_ip}" }
