@@ -1,0 +1,11 @@
+output "vpc_id"                   { value = "${module.network.vpc_id}" }
+output "vpc_cidr"                 { value = "${var.vpc_cidr}" }
+output "vpc_domain"               { value = "${var.vpc_domain}" }
+output "vpc_zone_id"              { value = "${module.network.vpc_zone_id}" }
+output "vpc_dns_resolver"         { value = "${var.vpc_dns_resolver}" }
+output "public_route_table_id"    { value = "${module.network.public_route_table_id}" }
+output "private_route_table_ids"  { value = "${module.network.private_route_table_ids}" }
+output "bastion_user"             { value = "${module.network.bastion_user}" }
+output "bastion_public_ip"        { value = "${module.network.bastion_public_ip}" }
+output "region"                   { value = "${var.region}" }
+output "availability_zones"       { value = "${var.default_azs}" }

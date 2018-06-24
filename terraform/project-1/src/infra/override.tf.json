@@ -1,0 +1,7 @@
+{
+  "variable": {
+    "bastion_image": {
+      "default": "ami-66a7871c"
+    }
+  }
+}
