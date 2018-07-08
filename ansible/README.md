@@ -1,12 +1,11 @@
 # Ansible Example
 
-This directory contains a set of examples of using Ansible tool to run on Ec2 on AWS
-
+This repository contains examples and best practices for building Ansible Playbooks.
 For example:
 
 ```
 $ git clone https://github.com/raavula/devops.git
-$ cd devops/ansible/examples/
+$ cd devops/ansible/
 
 $ cat <<EOF > /usr/local/playbooks/hosts
 [local]
