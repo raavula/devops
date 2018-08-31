@@ -1,0 +1,200 @@
+**************************************    class-1 *********************************************
+
+1) AWS:  Networking - Learn about vpc
+  =================
+
+vpc Types:
+vpc with single public subnet
+vpc with public and private subnet(NAT)
+vpc with pub and priv subnet and aws managed vpn access
+vpc with private subnet only and aws managed vpn access 
+
+Points:
+supports both ipv4 (CIDR: a/16) and ipv6 (CIDR: a/56)
+Migration to ipv6 support but ipv4 can’t disable and act ad dual stack
+SG vs ACL 
+Flow logs to cloud watch and s3
+RT ,IG , Egress-only IG(IPv6) vs NAT (ipv4)
+Provided DHCP and DNS 
+Vpc peering 
+Vpc endpoints powered by PrivateLink  [ interface = elastic network(cw,sns,apigw ..etc) & gateway = route in RT (s3,dyanamo db)]
+ClassicLink allows you to link an EC2-Classic instance to a VPC 
+Vpn – aws managed vpn(IPsec), cloudHub,thirdpary vpn
+Last but not least – Limits apply
+                               
+
+Note:  study and understand how VPC works and importance of VPC service.
+
+
+2) Dockers:  Architecture ,install ,create docker image and docker hub 
+   =======
+
+install link: https://docs.docker.com/glossary/?term=installation
+verify command: docker version    [both client and server]
+
+Try below:
+## List Docker CLI commands
+docker
+docker container --help
+
+## Display Docker version and info
+docker --version
+docker version
+docker info
+
+## Execute Docker image
+docker run hello-world
+
+## List Docker images
+docker image ls
+
+## List Docker containers (running, all, all in quiet mode)
+docker container ls
+docker container ls --all
+docker container ls -aq
+
+
+Create first container
+   git clone https://github.com/raavula/devops.git 
+   cd devops/docker/image
+   docker build -t friendlyhello .  # Create image using this directory's Dockerfile  
+
+
+Create an account in : https://hub.docker.com/
+   create an repository name for tag the images
+
+docker run -p 4000:80 friendlyhello  # Run "friendlyname" mapping port 4000 to 80
+docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
+docker container ls                                # List all running containers
+docker container ls -a             # List all containers, even those not running
+docker container stop <hash>           # Gracefully stop the specified container
+docker container kill <hash>         # Force shutdown of the specified container
+docker container rm <hash>        # Remove specified container from this machine
+docker container rm $(docker container ls -a -q)         # Remove all containers
+docker image ls -a                             # List all images on this machine
+docker image rm <image id>            # Remove specified image from this machine
+docker image rm $(docker image ls -a -q)   # Remove all images from this machine
+docker login             # Log in this CLI session using your Docker credentials
+docker tag <image> username/repository:tag  # Tag <image> for upload to registry
+docker push username/repository:tag            # Upload tagged image to registry
+docker run username/repository:tag                   # Run image from a registry
+
+
+*****************************************************  CLASS-2 ******************************************************
+# AWS Network service
+AWS - CloudFront Service:
+	Static Asset Caching
+	Live and On-Demand Video Streaming
+	Security and DDoS Protection
+	Dynamic and Customized Content
+	API Acceleration
+	Software Distribution
+
+AWS -  Route 53 Service:
+	Highly available and scalable cloud Domain Name System (DNS) web service. 
+        Amazon Route 53 effectively connects user requests to infrastructure running in AWS – such as Amazon EC2 instances, Elastic Load Balancing load balancers, or Amazon S3 buckets – and can also be used to route users to infrastructure outside of AWS.
+        configure DNS health checks to route traffic to healthy endpoints or to independently monitor the health of your application and its endpoints
+         Traffic Flow makes it easy for you to manage traffic globally through a variety of routing types, including Latency Based Routing, Geo DNS, Geoproximity, and Weighted Round Robin—all of which can be combined with DNS Failover in order to enable a variety of low-latency, fault-tolerant architectures
+ 
+AWS – Direct Connect service:
+	REDUCES YOUR BANDWIDTH COSTS
+	CONSISTENT NETWORK PERFORMANCE
+	COMPATIBLE WITH ALL AWS SERVICES
+	PRIVATE CONNECTIVITY TO YOUR AMAZON VPC
+	ELASTIC
+	SIMPLE
+	LARGE DATA SETS
+	REAL TIME DATA FEED
+	HYBRID ENVIRONMENT
+
+AWS – Elastic Load Balancing service:
+   a) Application Load Balancer:
+	Layer-7 Load Balancing
+	HTTPS Support
+	Server Name Indication (SNI)
+	IP addresses as Targets
+	Content-Based Routing (Host & Path)
+	Containerized Application Support
+	HTTP/2 ,web socket and native IPv6 Support
+	Slow Start Mode with Load-Balancing Algorithm
+	User Authentication
+	Redirects
+	Logging – Access Logs
+
+  b) Network Load Balancer:
+	Connection-based Load Balancing(TCP)
+	DNS Fail-over
+	Integration with AWS Services
+	Long-lived TCP Connections
+	Central API Support
+	Zonal Isolation
+	Load Balancing using IP addresses as Targets
+	Health Checks
+	Preserve source IP address
+  
+  c) Classic Load Balancer:
+	Layer 4 or Layer 7 Load Balancing
+	IPv6 Support
+	SSL OffloadingSticky SessionsOperational Monitoring
+	Logging
+	High Availability
+	Health Checks
+	Security Features
+
+ AWS - API Gateway Service:
+	Easy for developers to publish, maintain, monitor, and secure APIs at any scale
+	Build, deploy, and manage APIs
+	Resiliency
+	API Lifecycle Management
+	SDK Generation
+	API Operations Monitoring
+	AWS Authorization
+	API Keys for Third-Party Developers
+
+  
+******************************************* CLASS 3 ***********************************************
+
+DOCKER:
+======
+   
+Learn About docker compose and stack deployment 
+
+1) Make sure docker installed and account in hub.docker.com
+2) check command : Docker swarm init 
+
+Execute and try below commands
+docker stack ls                                            # List stacks or apps
+docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
+docker service ls                 # List running services associated with an app
+docker service ps <service>                  # List tasks associated with an app
+docker inspect <task or container>                   # Inspect task or container
+docker container ls -q                                      # List container IDs
+docker stack rm <appname>                             # Tear down an application
+docker swarm leave --force      # Take down a single node swarm from the manager
+
+
+
+TOOLS & AUTOMATION
+=================
+1) Install Terraform 
+2) Setup Terraform 
+
+3) Create an Project in terraform 
+   - create an VPC and bring up Vm inside VPC
+     https://github.com/raavula/devops/tree/master/terraform/aws/project-1
+
+
+Terraform Cheatsheet:
+
+
+
+
+
+********************************************************* CLASS-4***************************************
+
+
+
+
+
+
+
