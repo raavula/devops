@@ -161,6 +161,8 @@ Learn About docker compose and stack deployment
 
 1) Make sure docker installed and account in hub.docker.com
 2) check command : Docker swarm init 
+3) create the cluster and join the workers to Leader
+4) Deploy the stack with different services  
 
 Execute and try below commands
 docker stack ls                                            # List stacks or apps
