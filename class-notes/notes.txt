@@ -175,28 +175,51 @@ docker stack rm <appname>                             # Tear down an application
 docker swarm leave --force      # Take down a single node swarm from the manager
 
 
-
-TOOLS & AUTOMATION
-=================
-1) Install Terraform 
-2) Setup Terraform 
-
-3) Create an Project in terraform 
-   - create an VPC and bring up Vm inside VPC
-     https://github.com/raavula/devops/tree/master/terraform/aws/project-1
-
-
-Terraform Cheatsheet:
-
-
-
-
-
 ********************************************************* CLASS-4***************************************
 
+Let start with 
+- Logging
+- Monitoring
+- CI/CD 
+- Scripts and Automation Tools 
+
+                                CI/CD phase
+                      Tools
+code commit / review
+GitHub, bit bucket
+
+Pipeline
+Jenkins, aws CodePipleline, Spinnaker
+
+Unit tests and coverage
+Took based on application e.g. junit, code cover etc.
+
+Bake ami/docker image/Rpms
+Packer, Jfrog artifactory
+
+Stack deployment (in aws, azure etc.)
+Terraform 
+
+Stack configuration
+Ansible,Puppet,Chef,SaltStack,consul,collect.d  etc.
+
+Certs and passwords
+Vault
+
+security
+Twist lock, Sysdig security, app check, Qualys scanner, snort, aws security services(IAM etc.)
+
+Deployment testing
+The-Netflix-simian-army Tools (Monkey Tools)
+
+Monitoring
+ Datadog,Nagios,Promethues,Grafana, AWS cloud watch metrics/alarms,splunk,New Relic, JIRA, BigPanda
+
+Logging
+Aws cloud watch Logs, S3 , Glacier, Aws log agent,fluentd
 
 
-
+******************************************************  CLASS -5 *****************************************************
 
 
 

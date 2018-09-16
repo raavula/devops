@@ -9,7 +9,7 @@ For example:
 
 ```
 $ git clone https://github.com/raavula/devops.git
-$ cd devops/packerexamples/
-$ packer build aws-ami-example.json
+$ cd devops/packer
+$ sh example_ami.sh
 ...
 ```

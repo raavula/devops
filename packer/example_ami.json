@@ -39,7 +39,15 @@
         },
         {
             "type": "shell",
-            "script": "./example.sh"
+            "script": "./configure.sh"
         }
-    ]
+    ],
+  "post-processors": [
+    {
+          "type": "shell-local",
+          "environment_vars": ["PROVISIONERTEST=ProvisionerTest2"],
+          "inline": ["echo hello",
+                     "echo $PROVISIONERTEST"]
+      }
+  ]
 }
