@@ -1,0 +1,16 @@
+- hosts: 127.0.0.1
+  user: root
+  tasks:
+    - name: ensure package cache is up to date
+      apt: update_cache=yes cache_valid_time=3600
+      tags: install
+    - name: install web server
+      apt: pkg=apache2 state=present
+      tags: install
+    - name: install index page
+      command: cp -r /tmp/front.html /var/www/html/index.html 
+      tags: configure
+      notify: restart apache2
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted

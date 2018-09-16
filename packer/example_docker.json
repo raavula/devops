@@ -1,0 +1,34 @@
+{
+    "builders":[{
+        "type": "docker",
+        "image": "ubuntu",
+        "export_path": "image.tar"
+    }],
+    "provisioners":[
+        {
+            "type": "shell",
+            "inline": [
+                "apt-get -y update",
+                "apt-get install -y python-pip python-dev",
+                "pip install ansible"
+            ]
+        },
+       {
+      		"type": "file",
+      		"source": "./playbooks/front.html",
+      		"destination": "/tmp/front.html"
+       },
+        {
+            "type": "ansible-local",
+            "playbook_file": "playbooks/local.yml"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-import",
+            "repository": "raavula/packer-ansible",
+            "tag": "0.1"
+        }
+    ]
+}
+
