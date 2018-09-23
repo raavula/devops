@@ -11,4 +11,7 @@
 # To Destroy
  - make destroy
 
+#To Login to bastion
+chmod 400 local_sshkey_opsstack
+ssh -i local_sshkey_opsstack1 root@bastion_public_ip
 
