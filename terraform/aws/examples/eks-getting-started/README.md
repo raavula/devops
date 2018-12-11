@@ -4,9 +4,9 @@
 # Kubectl dependency
 #brew install kubernetes-cli
 # make sure version greater 1.10 or above 
-# kubectl version  
-# brew install bash-completion@2
-# Follow the “caveats” section of brew’s output to add the appropriate bash completion path to your local .bashrc.
+#kubectl version  
+#brew install bash-completion@2
+#Follow the “caveats” section of brew’s output to add the appropriate bash completion path to your local .bashrc.
 
 # Authenticator dependency
 #install aws-iam-authenticator
@@ -14,6 +14,12 @@
 #chmod +x aws-iam-authenticator
 #mv aws-iam-authenticator /usr/local/bin/heptio-authenticator-aws
 #heptio-authenticator-aws help
+
+# Pre condition check
+#verify : curl http://whatismyip.akamai.com/  or open in browser
+#vi main.tf Makefile ; update bucket name from raghav-eks-state to some unique name XXX-eks-state file
+# verify aws credentials are set in console or not by either 'aws configure' or 'aws s3 ls'   
+
 
 # Execution
 #make setup
@@ -52,7 +58,6 @@
 # kill any procee runs on 8001
 #lsof -ti:8001 | xargs kill -9
 #kubectl proxy
-
 
 # Open the Dashboard
 #http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
