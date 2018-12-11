@@ -43,7 +43,7 @@
 # cluster role bind to dash-board
 #kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/rbac/heapster-rbac.yaml
 #kubectl apply -f apps/eks-admin-service-account.yaml
-#kubectl apply -f eks-admin-cluster-role-binding.yaml
+#kubectl apply -f apps/eks-admin-cluster-role-binding.yaml
 
 
 # connect to Dashboard
