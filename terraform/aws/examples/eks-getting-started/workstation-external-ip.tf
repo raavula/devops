@@ -9,7 +9,7 @@
 #
 
 data "http" "workstation-external-ip" {
-  url = "http://icanhazip.com"
+  url = "http://whatismyip.akamai.com/"
 }
 
 # Override with variable or hardcoded value if necessary
