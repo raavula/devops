@@ -33,4 +33,6 @@ builders":
 
 '''
 export PATH=$PATH:/usr/local/bin/packer
+echo "Provide docker hub login ...."
+docker login
 packer build example_docker.json
