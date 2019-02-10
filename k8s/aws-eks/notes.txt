@@ -1,0 +1,49 @@
+# The resources creation 
+
+Master Resources:
+=================
+step-1:  master-cluster iam role with AmazonEKSClusterPolicy and AmazonEKSServicePolicy
+
+step-2:  create master-cluster sg with ingress 443 and egress all
+
+step-3:  create master-eks-cluser with cluster role and with vpc configs
+
+step-4:  create an kube config file with cluster endpoint, certificate and cluser-name
+  
+
+Worker Resources:
+================
+step-1: worker-iam-role with AmazonEKSWorkerNodePolicy,AmazonEKS_CNI_Policy and AmazonEC2ContainerRegistryReadOnly
+        aws_iam_instance_profile with worker-iam-role
+
+step-2: create worker-sg ingress for one for node(0-65535) and another for cluster(1025-65535) and egress all
+        create sg for worker-node to master cluster api server (ingress: 443)
+
+step-3: worker node Autoscaling group with launch configuration and given vpc 
+        Launch configuration contains - AMI id,flavor,iam instance profile with user data with below lines in script 
+        #!/bin/bash
+        set -o xtrace
+        /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.sse.endpoint}' --b64-cluster-ca '${aws_eks_cluster.sse.certificate_authority.0.data}' '${var.cluster-name}'
+     
+step-4: create a config map config file with worker node rolearn to join workers to Master cluster
+
+
+
+Kubectl config:
+==============
+step-1 : copy the kube config generate as step-4 in Master resource into ~?.kube/config 
+
+step-2: check kubectl version dump
+
+step-3: copy config map generates as step-4 in Worker resource to configmap.yaml
+        run kubctl apply with configmap.yaml
+        Now worker node joins to the cluster 
+
+step-4: verify kubectl get nodes --all-namespaces
+
+
+   
+
+        
+
+

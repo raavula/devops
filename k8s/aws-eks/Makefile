@@ -1,4 +1,4 @@
-ACCOUNT_S3_BUCKET = raghav-eks-state
+ACCOUNT_S3_BUCKET = raghav-eks-sse-state
 TFSTATE_FILE   = terraform.state
 
 
