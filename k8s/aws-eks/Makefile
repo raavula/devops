@@ -43,5 +43,5 @@ destroy: plan
 	@echo "`date +%Y-%m-%dT%H:%M:%S%z`: Terraform destroy started ..."
 	terraform destroy
 	rm -rf .terraform
-	aws s3 rb s3://raavula-eks-state --force
+	aws s3 rb s3://$(ACCOUNT_S3_BUCKET) --force
 	@echo "`date +%Y-%m-%dT%H:%M:%S%z`: Terraform destroy done ..."
