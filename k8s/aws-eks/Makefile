@@ -43,4 +43,5 @@ destroy: plan
 	@echo "`date +%Y-%m-%dT%H:%M:%S%z`: Terraform destroy started ..."
 	terraform destroy
 	rm -rf .terraform
+	aws s3api delete-bucket --bucket $(ACCOUNT_S3_BUCKET) --region us-east-1
 	@echo "`date +%Y-%m-%dT%H:%M:%S%z`: Terraform destroy done ..."
