@@ -23,7 +23,7 @@ step-3: worker node Autoscaling group with launch configuration and given vpc
         Launch configuration contains - AMI id,flavor,iam instance profile with user data with below lines in script 
         #!/bin/bash
         set -o xtrace
-        /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.sse.endpoint}' --b64-cluster-ca '${aws_eks_cluster.sse.certificate_authority.0.data}' '${var.cluster-name}'
+        /etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.example.endpoint}' --b64-cluster-ca '${aws_eks_cluster.example.certificate_authority.0.data}' '${var.cluster-name}'
      
 step-4: create a config map config file with worker node rolearn to join workers to Master cluster
 

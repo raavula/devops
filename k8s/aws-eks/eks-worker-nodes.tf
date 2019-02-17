@@ -7,8 +7,8 @@
 #  * AutoScaling Group to launch worker instances
 #
 
-resource "aws_iam_role" "sse-node" {
-  name = "terraform-eks-sse-node"
+resource "aws_iam_role" "example-node" {
+  name = "terraform-eks-example-node"
 
   assume_role_policy = <<POLICY
 {
@@ -26,30 +26,30 @@ resource "aws_iam_role" "sse-node" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "sse-node-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "example-node-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = "${aws_iam_role.sse-node.name}"
+  role       = "${aws_iam_role.example-node.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "sse-node-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "example-node-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = "${aws_iam_role.sse-node.name}"
+  role       = "${aws_iam_role.example-node.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "sse-node-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "example-node-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = "${aws_iam_role.sse-node.name}"
+  role       = "${aws_iam_role.example-node.name}"
 }
 
-resource "aws_iam_instance_profile" "sse-node" {
-  name = "terraform-eks-sse"
-  role = "${aws_iam_role.sse-node.name}"
+resource "aws_iam_instance_profile" "example-node" {
+  name = "terraform-eks-example"
+  role = "${aws_iam_role.example-node.name}"
 }
 
-resource "aws_security_group" "sse-node" {
-  name        = "terraform-eks-sse-node"
+resource "aws_security_group" "example-node" {
+  name        = "terraform-eks-example-node"
   description = "Security group for all nodes in the cluster"
-  vpc_id      = "${aws_vpc.sse.id}"
+  vpc_id      = "${aws_vpc.example.id}"
 
   egress {
     from_port   = 0
@@ -60,28 +60,28 @@ resource "aws_security_group" "sse-node" {
 
   tags = "${
     map(
-     "Name", "terraform-eks-sse-node",
+     "Name", "terraform-eks-example-node",
      "kubernetes.io/cluster/${var.cluster-name}", "owned",
     )
   }"
 }
 
-resource "aws_security_group_rule" "sse-node-ingress-self" {
+resource "aws_security_group_rule" "example-node-ingress-self" {
   description              = "Allow node to communicate with each other"
   from_port                = 0
   protocol                 = "-1"
-  security_group_id        = "${aws_security_group.sse-node.id}"
-  source_security_group_id = "${aws_security_group.sse-node.id}"
+  security_group_id        = "${aws_security_group.example-node.id}"
+  source_security_group_id = "${aws_security_group.example-node.id}"
   to_port                  = 65535
   type                     = "ingress"
 }
 
-resource "aws_security_group_rule" "sse-node-ingress-cluster" {
+resource "aws_security_group_rule" "example-node-ingress-cluster" {
   description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
   from_port                = 1025
   protocol                 = "tcp"
-  security_group_id        = "${aws_security_group.sse-node.id}"
-  source_security_group_id = "${aws_security_group.sse-cluster.id}"
+  security_group_id        = "${aws_security_group.example-node.id}"
+  source_security_group_id = "${aws_security_group.example-cluster.id}"
   to_port                  = 65535
   type                     = "ingress"
 }
@@ -102,19 +102,19 @@ data "aws_ami" "eks-worker" {
 # information into the AutoScaling Launch Configuration.
 # More information: https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/amazon-eks-nodegroup.yaml
 locals {
-  sse-node-userdata = <<USERDATA
+  example-node-userdata = <<USERDATA
 #!/bin/bash -xe
 
 CA_CERTIFICATE_DIRECTORY=/etc/kubernetes/pki
 CA_CERTIFICATE_FILE_PATH=$CA_CERTIFICATE_DIRECTORY/ca.crt
 mkdir -p $CA_CERTIFICATE_DIRECTORY
-echo "${aws_eks_cluster.sse.certificate_authority.0.data}" | base64 -d >  $CA_CERTIFICATE_FILE_PATH
+echo "${aws_eks_cluster.example.certificate_authority.0.data}" | base64 -d >  $CA_CERTIFICATE_FILE_PATH
 INTERNAL_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
-sed -i s,MASTER_ENDPOINT,${aws_eks_cluster.sse.endpoint},g /var/lib/kubelet/kubeconfig
+sed -i s,MASTER_ENDPOINT,${aws_eks_cluster.example.endpoint},g /var/lib/kubelet/kubeconfig
 sed -i s,CLUSTER_NAME,${var.cluster-name},g /var/lib/kubelet/kubeconfig
 sed -i s,REGION,${data.aws_region.current.name},g /etc/systemd/system/kubelet.service
 sed -i s,MAX_PODS,20,g /etc/systemd/system/kubelet.service
-sed -i s,MASTER_ENDPOINT,${aws_eks_cluster.sse.endpoint},g /etc/systemd/system/kubelet.service
+sed -i s,MASTER_ENDPOINT,${aws_eks_cluster.example.endpoint},g /etc/systemd/system/kubelet.service
 sed -i s,INTERNAL_IP,$INTERNAL_IP,g /etc/systemd/system/kubelet.service
 DNS_CLUSTER_IP=10.100.0.10
 if [[ $INTERNAL_IP == 10.* ]] ; then DNS_CLUSTER_IP=172.20.0.10; fi
@@ -126,31 +126,31 @@ systemctl restart kubelet
 USERDATA
 }
 
-resource "aws_launch_configuration" "sse" {
+resource "aws_launch_configuration" "example" {
   associate_public_ip_address = true
-  iam_instance_profile        = "${aws_iam_instance_profile.sse-node.name}"
+  iam_instance_profile        = "${aws_iam_instance_profile.example-node.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
   instance_type               = "t2.medium"
-  name_prefix                 = "terraform-eks-sse"
-  security_groups             = ["${aws_security_group.sse-node.id}"]
-  user_data_base64            = "${base64encode(local.sse-node-userdata)}"
+  name_prefix                 = "terraform-eks-example"
+  security_groups             = ["${aws_security_group.example-node.id}"]
+  user_data_base64            = "${base64encode(local.example-node-userdata)}"
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-resource "aws_autoscaling_group" "sse" {
+resource "aws_autoscaling_group" "example" {
   desired_capacity     = 2
-  launch_configuration = "${aws_launch_configuration.sse.id}"
+  launch_configuration = "${aws_launch_configuration.example.id}"
   max_size             = 2
   min_size             = 1
-  name                 = "terraform-eks-sse"
-  vpc_zone_identifier  = ["${aws_subnet.sse.*.id}"]
+  name                 = "terraform-eks-example"
+  vpc_zone_identifier  = ["${aws_subnet.example.*.id}"]
 
   tag {
     key                 = "Name"
-    value               = "terraform-eks-sse"
+    value               = "terraform-eks-example"
     propagate_at_launch = true
   }
 

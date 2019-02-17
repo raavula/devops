@@ -5,8 +5,8 @@
 #  * EKS Cluster
 #
 
-resource "aws_iam_role" "sse-cluster" {
-  name = "terraform-eks-sse-cluster"
+resource "aws_iam_role" "example-cluster" {
+  name = "terraform-eks-example-cluster"
 
   assume_role_policy = <<POLICY
 {
@@ -24,20 +24,20 @@ resource "aws_iam_role" "sse-cluster" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "sse-cluster-AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "example-cluster-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = "${aws_iam_role.sse-cluster.name}"
+  role       = "${aws_iam_role.example-cluster.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "sse-cluster-AmazonEKSServicePolicy" {
+resource "aws_iam_role_policy_attachment" "example-cluster-AmazonEKSServicePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-  role       = "${aws_iam_role.sse-cluster.name}"
+  role       = "${aws_iam_role.example-cluster.name}"
 }
 
-resource "aws_security_group" "sse-cluster" {
-  name        = "terraform-eks-sse-cluster"
+resource "aws_security_group" "example-cluster" {
+  name        = "terraform-eks-example-cluster"
   description = "Cluster communication with worker nodes"
-  vpc_id      = "${aws_vpc.sse.id}"
+  vpc_id      = "${aws_vpc.example.id}"
 
   egress {
     from_port   = 0
@@ -47,41 +47,41 @@ resource "aws_security_group" "sse-cluster" {
   }
 
   tags {
-    Name = "terraform-eks-sse"
+    Name = "terraform-eks-example"
   }
 }
 
-resource "aws_security_group_rule" "sse-cluster-ingress-node-https" {
+resource "aws_security_group_rule" "example-cluster-ingress-node-https" {
   description              = "Allow pods to communicate with the cluster API Server"
   from_port                = 443
   protocol                 = "tcp"
-  security_group_id        = "${aws_security_group.sse-cluster.id}"
-  source_security_group_id = "${aws_security_group.sse-node.id}"
+  security_group_id        = "${aws_security_group.example-cluster.id}"
+  source_security_group_id = "${aws_security_group.example-node.id}"
   to_port                  = 443
   type                     = "ingress"
 }
 
-resource "aws_security_group_rule" "sse-cluster-ingress-workstation-https" {
+resource "aws_security_group_rule" "example-cluster-ingress-workstation-https" {
   cidr_blocks       = ["${local.workstation-external-cidr}"]
   description       = "Allow workstation to communicate with the cluster API Server"
   from_port         = 443
   protocol          = "tcp"
-  security_group_id = "${aws_security_group.sse-cluster.id}"
+  security_group_id = "${aws_security_group.example-cluster.id}"
   to_port           = 443
   type              = "ingress"
 }
 
-resource "aws_eks_cluster" "sse" {
+resource "aws_eks_cluster" "example" {
   name     = "${var.cluster-name}"
-  role_arn = "${aws_iam_role.sse-cluster.arn}"
+  role_arn = "${aws_iam_role.example-cluster.arn}"
 
   vpc_config {
-    security_group_ids = ["${aws_security_group.sse-cluster.id}"]
-    subnet_ids         = ["${aws_subnet.sse.*.id}"]
+    security_group_ids = ["${aws_security_group.example-cluster.id}"]
+    subnet_ids         = ["${aws_subnet.example.*.id}"]
   }
 
   depends_on = [
-    "aws_iam_role_policy_attachment.sse-cluster-AmazonEKSClusterPolicy",
-    "aws_iam_role_policy_attachment.sse-cluster-AmazonEKSServicePolicy",
+    "aws_iam_role_policy_attachment.example-cluster-AmazonEKSClusterPolicy",
+    "aws_iam_role_policy_attachment.example-cluster-AmazonEKSServicePolicy",
   ]
 }
