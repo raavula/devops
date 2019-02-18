@@ -1,6 +1,20 @@
+# AWS account creation  
+#make sure created and account in aws and created a role and assign policy   
+#get aws access key and secret key for your account   
+
 # Terraform dependency
 #make sure version v0.11 and above   
 terraform version
+
+# Install aws-cli 
+#https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html 
+
+# Seup Environment with your values
+export AWS_ACCESS_KEY_ID=AKIAXXXX   
+export AWS_SECRET_ACCESS_KEY=68XXXXXX   
+export AWS_DEFAULT_REGION=us-east-1     
+PATH="<your installed path>/Terraform/v0.11.10/:$PATH"    
+export PATH 
 
 # Kubectl dependency
 brew install kubernetes-cli 
@@ -54,12 +68,16 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 
 # kill any procee runs on 8001   
 lsof -ti:8001 | xargs kill -9    
-kubectl proxy    
-
+kubectl proxy
+    
 # Open the Dashboard    
 http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/    
 #paste Token which is generated for login    
 
 # Cleanup cluster  
+cd Applications/dashboard/  
+sh cleanup.sh  
+cd Applications/guestbook/  
+sh cleanup.sh  
 make destroy    
 
