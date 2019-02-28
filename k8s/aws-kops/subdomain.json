@@ -1,0 +1,27 @@
+{
+  "Comment": "Create a subdomain NS record in the parent domain",
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "dev.raavula.com",
+        "Type": "NS",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "ns-1821.awsdns-35.co.uk"
+          },
+          {
+            "Value": "ns-498.awsdns-62.com"
+          },
+          {
+            "Value": "ns-1448.awsdns-53.org"
+          },
+          {
+            "Value": "ns-936.awsdns-53.net"
+          }
+        ]
+      }
+    }
+  ]
+}
