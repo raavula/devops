@@ -24,8 +24,7 @@ Replace all string "raavula" with your own domain string
 1.https://console.aws.amazon.com/route53/home#DomainRegistration:    
 2.will get nearly 3 Emails one for Registration confirm and second verified and third route 53 creation success   
 
-aws route53 list-hosted-zones | jq '.HostedZones[] | select(.Name=="raavula.com.") | .Id  
-aws route53 list-resource-record-sets --hosted-zone-id XXXXX  
+ID=$(uuidgen) && aws route53 create-hosted-zone --name dev.raavula.com --caller-reference $ID | jq .DelegationSet.NameServers  
 vi subdomain.json  
 edit values Name and ResourceRecords with above output [.com,.net,.org,.uk]     
 aws route53 list-hosted-zones | jq '.HostedZones[] | select(.Name=="raavula.com.") | .Id'    
@@ -74,8 +73,9 @@ Replce CREATE with DELETE
 
 aws route53 list-hosted-zones | jq '.HostedZones[] | select(.Name=="raavula.com.") | .Id'   
 aws route53 change-resource-record-sets --hosted-zone-id "/hostedzone/XXXXXXXX" --change-batch file://subdomain.json    
-
-aws s3 rb s3://clusters.dev.raavula.com --force
+aws route53 list-hosted-zones | jq '.HostedZones[] | select(.Name=="dev.raavula.com.") | .Id'   
+aws route53 delete-hosted-zone --id YYYYYY   
+aws s3 rb s3://clusters.dev.raavula.com --force    
 
 
 #if you want to delete your own domain execute below command.  
