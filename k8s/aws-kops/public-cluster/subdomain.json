@@ -2,23 +2,23 @@
   "Comment": "Create or Delete a subdomain NS record in the parent domain",
   "Changes": [
     {
-      "Action": "CREATE",
+      "Action": "DELETE",
       "ResourceRecordSet": {
         "Name": "dev.raavula.com",
         "Type": "NS",
         "TTL": 300,
         "ResourceRecords": [
           {
-            "Value": "ns-111.awsdns-11.co.uk"
+            "Value": "ns-1733.awsdns-24.co.uk"
           },
           {
-            "Value": "ns-222.awsdns-22.com"
+            "Value": "ns-408.awsdns-51.com"
           },
           {
-            "Value": "ns-3333.awsdns-33.org"
+            "Value": "ns-1499.awsdns-59.org"
           },
           {
-            "Value": "ns-444.awsdns-44.net"
+            "Value": "ns-889.awsdns-47.net"
           }
         ]
       }
