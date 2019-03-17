@@ -13,6 +13,15 @@ kubectl get service
 kubectl get pods
 kubectl get pods -l app=guestbook -l tier=frontend
 
+#Monitor logs for mutiple pods
+#Download kubbetail from: https://github.com/raavula/kubetail
+kubetail app1,app2
+
+#Login to inside container
+kubectl exec -it <<pod-name>> /bin/bash 
+
+#Describe pod 
+kubectl describe pod << pod-name >> 
 
 #RUN the UI 
 kubectl proxy
