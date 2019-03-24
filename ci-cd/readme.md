@@ -17,9 +17,9 @@ click start using Jenkins
 
 # Get Git code Ready  
 cd /Users/<your-username>/Documents/SSP/   [if directory not exists create one]  
-git clone git@github.com:raavula/building-a-multibranch-pipeline-project.git   
+git clone https://github.com/raavula/building-a-multibranch-pipeline-project.git    
 git branch development  
-git branch production 
+git branch production     
 git branch  
 
 
@@ -61,8 +61,16 @@ git pull . master
 Your development and production branches should now have all your Jenkinsfile updates you made on the master branch.     
 
 
+# Try pipeline with source code changes  
+Open and modify  App.js   
+git stage .  
+git commit -m "Update 'App.js'"   
+Click run icon in branched in UI and verify pipeline.   
+    
 
-
-  
+# Refferences   
+https://jenkins.io/doc/tutorials/   
+https://jenkins.io/doc/book/pipeline/jenkinsfile/#creating-a-jenkinsfile   
+ 
 
      
