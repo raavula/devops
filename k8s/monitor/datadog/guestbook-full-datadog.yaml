@@ -1,0 +1,123 @@
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: redis-master
+  labels:
+    app: redis
+    role: master
+spec:
+  replicas: 1
+  selector:
+    app: redis
+    role: master
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+    spec:
+      containers:
+      - name: redis-master
+        image: redis:2.8.23
+        ports:
+        - name: redis-server
+          containerPort: 6379
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-master
+  labels:
+    app: redis
+    role: master
+spec:
+  ports:
+  - port: 6379
+    targetPort: redis-server
+  selector:
+    app: redis
+    role: master
+---
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: redis-slave
+  labels:
+    app: redis
+    role: slave
+spec:
+  replicas: 2
+  selector:
+    app: redis
+    role: slave
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: slave
+    spec:
+      containers:
+      - name: redis-slave
+        image: kubernetes/redis-slave:v2
+        ports:
+        - name: redis-server
+          containerPort: 6379
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-slave
+  labels:
+    app: redis
+    role: slave
+spec:
+  ports:
+  - port: 6379
+    targetPort: redis-server
+  selector:
+    app: redis
+    role: slave
+---
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: guestbook
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: guestbook
+    spec:
+      containers:
+      - name: guestbook
+        image: johnmatson79/guestbook:1.12
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        - name: DOGSTATSD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        ports:
+        - name: expvar-server
+          containerPort: 2999
+          protocol: TCP
+        - name: http-server
+          containerPort: 3000
+          protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: guestbook
+  labels:
+    app: guestbook
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: http-server
+  selector:
+    app: guestbook
