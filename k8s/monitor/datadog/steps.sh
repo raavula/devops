@@ -29,3 +29,8 @@ https://app.datadoghq.com/monitors/manage
 # Check all metrics that pushed from Agent
 https://app.datadoghq.com/metric/summary
 
+
+# Check custom metrics how it works
+https://docs.datadoghq.com/developers/metrics/custom_metrics/
+ 
+
