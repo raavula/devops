@@ -4,6 +4,9 @@ https://app.datadoghq.com/account/settings#agent/kubernetes
 kubectl create -f "https://raw.githubusercontent.com/DataDog/datadog-agent/master/Dockerfiles/manifests/rbac/clusterrole.yaml"
 kubectl create -f "https://raw.githubusercontent.com/DataDog/datadog-agent/master/Dockerfiles/manifests/rbac/serviceaccount.yaml"
 kubectl create -f "https://raw.githubusercontent.com/DataDog/datadog-agent/master/Dockerfiles/manifests/rbac/clusterrolebinding.yaml"
+
+
+# https://app.datadoghq.com/account/settings#api
 kubectl create secret generic datadog-secret --from-literal api-key="XXXXXX"
 
 # To Run agent in masternode for Deamonset added below lines to datadog-agent.yaml file
