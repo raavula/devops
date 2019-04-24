@@ -1,5 +1,5 @@
 # kubernetes-prometheus
-kubectl create clusterrolebinding owner-cluster-admin-binding --clusterrole cluster-admin --clusterrole cluster-admin  
+kubectl create clusterrolebinding owner-cluster-admin-binding --clusterrole cluster-admin --user admin  
 kubectl create namespace monitoring  
 kubectl create -f clusterRole.yaml  
 kubectl create -f config-map.yaml -n monitoring  
