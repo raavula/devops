@@ -1,7 +1,7 @@
 # Variables 
 #SSP  - shirdi sai parivar
 
-account              = "ssp-devops"
+account              = "ssp-devops-oct"
 stack                = "opsstack1"
 owner                = "raavula"
 

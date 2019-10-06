@@ -1,3 +1,3 @@
 #ssp - shirdi sai parivar
-account             = "ssp-devops"
+account             = "ssp-devops-oct"
 owner               = "raavula"
