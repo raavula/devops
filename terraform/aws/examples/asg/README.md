@@ -10,6 +10,9 @@ Make sure you change the list of availability zones that is applicable to your a
 
 To run, configure your AWS provider as described in https://www.terraform.io/docs/providers/aws/index.html
 
+
+Make sure installed Latest Terrform: v0.11.10 and above
+
 Running the example
 
 ssh-keygen -t rsa -f local_sshkey
