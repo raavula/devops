@@ -18,6 +18,7 @@ variable "availability_zones" {
 
 variable "key_name" {
   description = "Name of AWS key pair"
+  default     = "asg-example"
 }
 
 variable "instance_type" {

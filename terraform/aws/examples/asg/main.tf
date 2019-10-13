@@ -43,6 +43,12 @@ resource "aws_autoscaling_group" "web-asg" {
   }
 }
 
+resource "aws_key_pair" "auth" {
+  key_name   = "${var.key_name}"
+  public_key = "${file("local_sshkey.pub")}"
+}
+
+
 resource "aws_launch_configuration" "web-lc" {
   name          = "terraform-example-lc"
   image_id      = "${lookup(var.aws_amis, var.aws_region)}"
@@ -51,8 +57,20 @@ resource "aws_launch_configuration" "web-lc" {
   # Security group
   security_groups = ["${aws_security_group.default.id}"]
   user_data       = "${file("userdata.sh")}"
-  key_name        = "${var.key_name}"
+  key_name        = "${aws_key_pair.auth.id}"
 }
+
+
+data "aws_instances" "test" {
+  instance_tags = {
+    Name = "web-asg"
+  }
+
+  instance_state_names = ["running"]
+}
+
+
+
 
 # Our default security group to access
 # the instances over SSH and HTTP

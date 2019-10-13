@@ -3,6 +3,9 @@
 #
 # Create host file
 #
+
+python -m SimpleHTTPServer 8000 &
+
 cat <<EOF > /usr/local/playbooks/hosts
 [local]
 127.0.0.1
