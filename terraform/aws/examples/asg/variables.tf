@@ -3,10 +3,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-# ubuntu-trusty-14.04 (x64)
+# ubuntu-trusty-14.04 (x64) : ami-5f709f34
+# Amazon Linux: ami-00eb20669e0990cb4
+
 variable "aws_amis" {
   default = {
-    "us-east-1" = "ami-5f709f34"
+    "us-east-1" = "ami-00eb20669e0990cb4"
     "us-west-2" = "ami-7f675e4f"
   }
 }

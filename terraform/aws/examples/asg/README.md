@@ -15,6 +15,7 @@ Make sure installed Latest Terrform: v0.11.10 and above
 
 Running the example
 
+rm -rf local_sshkey*
 ssh-keygen -t rsa -f local_sshkey
 
 For planning phase 

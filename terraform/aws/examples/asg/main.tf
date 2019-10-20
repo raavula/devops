@@ -41,6 +41,10 @@ resource "aws_autoscaling_group" "web-asg" {
     value               = "web-asg"
     propagate_at_launch = "true"
   }
+ 
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_key_pair" "auth" {
@@ -50,7 +54,7 @@ resource "aws_key_pair" "auth" {
 
 
 resource "aws_launch_configuration" "web-lc" {
-  name          = "terraform-example-lc"
+   name_prefix  = "terraform-example-lc"
   image_id      = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "${var.instance_type}"
 
@@ -58,14 +62,20 @@ resource "aws_launch_configuration" "web-lc" {
   security_groups = ["${aws_security_group.default.id}"]
   user_data       = "${file("userdata.sh")}"
   key_name        = "${aws_key_pair.auth.id}"
+  
+  lifecycle {
+    create_before_destroy = true
+  }
+ 
 }
 
 
 data "aws_instances" "test" {
+ depends_on = ["aws_autoscaling_group.web-asg"]  
   instance_tags = {
     Name = "web-asg"
   }
-
+   
   instance_state_names = ["running"]
 }
 
