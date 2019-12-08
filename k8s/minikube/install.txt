@@ -1,0 +1,3 @@
+# Please follow below link to install Minikube
+https://kubernetes.io/docs/tasks/tools/install-minikube/
+

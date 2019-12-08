@@ -1,0 +1,88 @@
+# INSTALL KIND = k8ss in docker 
+# Reference: https://kind.sigs.k8s.io/docs/user/quick-start/
+# Note: Precondition ..make sure  docker installed 
+
+#On Mac & Linux:
+curl -Lo ./kind https://github.com/kubernetes-sigs/kind/releases/download/v0.6.1/kind-$(uname)-amd64
+chmod +x ./kind
+mv ./kind /some-dir-in-your-PATH/kind
+
+#On Mac via Homebrew:
+brew install kind
+
+#On Windows:
+curl.exe -Lo kind-windows-amd64.exe https://github.com/kubernetes-sigs/kind/releases/download/v0.6.1/kind-windows-amd64
+Move-Item .\kind-windows-amd64.exe c:\some-dir-in-your-PATH\kind.exe
+# OR via Chocolatey (https://chocolatey.org/packages/kind)
+choco install kind
+
+
+###################################################
+# Create an cluster 
+kind create cluster --config cluster-config.yaml --name kind-example
+kubectl get nodes
+kubectl get pods -o wide --all-namespaces
+kubectl get pods -o wide  --all-namespaces | grep "control-plane"
+kubectl get pods -o wide  --all-namespaces | grep "worker2"
+kubectl get pods -o wide  --all-namespaces | grep "worker "
+
+
+
+# Let start Example 
+
+# Example-1 Hello-minikube
+kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+kubectl expose service/hello-minikube 8080
+kubectl delete services hello-minikube
+kubectl delete deployment hello-minikube
+
+
+#Example-2 : Nginx 
+kubectl apply -f nginx-deployment.yaml
+kubectl describe deployment nginx-deployment
+kubectl get pods -l app=nginx
+kubectl describe pod <pod-name>
+update deployment : image: nginx:1.8 # Update the version of nginx from 1.7.9 to 1.8 
+update deployment: replicas: 4 # Update the replicas from 2 to 4 
+kubectl delete deployment/nginx-deployment
+
+
+#Example-3 : stateful application 
+kubectl apply -f  mysql-pv.yaml
+kubectl apply -f  mysql-deployment.yaml
+kubectl describe deployment mysql
+kubectl describe deployment mysql
+kubectl describe pvc mysql-pv-claim
+### Run the mysql client to test
+kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h mysql -ppassword
+kubectl delete deployment,svc mysql
+kubectl delete pvc mysql-pv-claim
+kubectl delete pv mysql-pv-volume
+
+
+# Example-4: Horizoantal pod Autoscaling (HPA)
+# Reference : https://github.com/kubernetes-sigs/metrics-server
+kubectl create -f deploy/1.8+/
+kubectl edit deploy -n kube-system metrics-server
+# edit metric-server deployment to add the flags
+# args:
+# - --kubelet-insecure-tls
+# - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+
+kubectl run php-apache --image=k8s.gcr.io/hpa-example --requests=cpu=200m --limits=cpu=500m --expose --port=80
+kubectl get pod
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+
+## increase load
+kubectl run --generator=run-pod/v1 -it --rm load-generator --image=busybox /bin/sh
+Hit enter for command prompt
+while true; do wget -q -O- http://php-apache.default.svc.cluster.local; done
+
+kubectl get deployment php-apache
+kubectl delete service php-apache
+kubectl delete deployment php-apache
+kubectl delete hpa php-apache
+
+
+
