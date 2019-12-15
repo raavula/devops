@@ -62,14 +62,6 @@ kubectl delete pv mysql-pv-volume
 
 
 # Example-4: Horizoantal pod Autoscaling (HPA)
-# Reference : https://github.com/kubernetes-sigs/metrics-server
-kubectl create -f deploy/1.8+/
-kubectl edit deploy -n kube-system metrics-server
-# edit metric-server deployment to add the flags
-# args:
-# - --kubelet-insecure-tls
-# - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
-
 kubectl run php-apache --image=k8s.gcr.io/hpa-example --requests=cpu=200m --limits=cpu=500m --expose --port=80
 kubectl get pod
 kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10

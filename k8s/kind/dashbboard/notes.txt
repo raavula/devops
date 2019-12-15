@@ -1,0 +1,25 @@
+# Install Metrics for Top usage - CPU,Memory 
+# Reference : https://github.com/kubernetes-sigs/metrics-server
+kubectl create -f deploy/1.8+/
+kubectl edit deploy -n kube-system metrics-server
+# edit metric-server deployment to add the flags
+# args:
+# - --kubelet-insecure-tls
+# - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+
+
+# Install dashboard 
+kubectl apply -f recommended.yaml
+
+#verify
+kubectl get pods -n kubernetes-dashboard
+kubectl get deployment  -n kubernetes-dashboard
+kubectl get service  -n kubernetes-dashboard
+
+# Install admin-user
+kubectl apply -f admin-user.yaml
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+
+# kubectl proxy 
+# open UI with below Link 
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
