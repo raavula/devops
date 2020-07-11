@@ -20,6 +20,10 @@ choco install kind
 ###################################################
 # Create an cluster 
 kind create cluster --config cluster-config.yaml --name kind-example
+kubectl cluster-info --context kind-kind-example
+kubectl config view
+kubectl config use-context kind-kind-example
+
 kubectl get nodes
 kubectl get pods -o wide --all-namespaces
 kubectl get pods -o wide  --all-namespaces | grep "control-plane"
@@ -33,9 +37,19 @@ kubectl get pods -o wide  --all-namespaces | grep "worker "
 # Example-1 Hello-minikube
 kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
 kubectl expose deployment hello-minikube --type=NodePort --port=8080
-kubectl expose service/hello-minikube 8080
+kubectl port-forward service/node-hello 8080:8080
+http://localhost:8080
+
+kubectl expose deployment hello-minikube --name=hello-minikube1 --port=8080
+kubectl proxy
+#check services
+http://localhost:8001/api/v1/namespaces/default/services
+http://localhost:8001/api/v1/namespaces/default/services/http:node-hello:/proxy/
 kubectl delete services hello-minikube
+kubectl delete services hello-minikube1
 kubectl delete deployment hello-minikube
+
+#Try another Example: kubectl create deployment node-hello --image=gcr.io/google-samples/node-hello:1.0 --port=8080
 
 
 #Example-2 : Nginx 
