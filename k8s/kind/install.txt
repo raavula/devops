@@ -36,6 +36,9 @@ kubectl get pods -o wide  --all-namespaces | grep "worker "
 
 # Example-1 Hello-minikube
 kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+kubectl scale --replicas=1 deployment/hello-minikube
+
+
 kubectl expose deployment hello-minikube --type=NodePort --port=8080
 kubectl port-forward service/node-hello 8080:8080
 http://localhost:8080
@@ -73,6 +76,25 @@ kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h 
 kubectl delete deployment,svc mysql
 kubectl delete pvc mysql-pv-claim
 kubectl delete pv mysql-pv-volume
+
+#Make sure docker space available in system 
+#docker system prune -a
+
+kubectl apply -f pv-pod.yaml
+kubectl exec -it task-pv-pod -- /bin/bash
+# Be sure to run these 3 commands inside the root shell that comes from
+# running "kubectl exec" in the previous step
+apt update
+apt install curl
+curl http://localhost/
+#The output shows the text that you wrote to the index.html file on the hostPath volume:
+#Hello from Kubernetes storage
+
+#Try End To End Exaple WordPress Example
+# in application folder : run.sh
+kubeproxy
+http://localhost:8001/api/v1/namespaces/default/services/wordpress:/proxy/wp-admin/install.php
+
 
 
 # Example-4: Horizoantal pod Autoscaling (HPA)
