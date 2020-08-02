@@ -1,0 +1,1 @@
+#update step 10 ELASTICSEARCH_URL with service IP 
