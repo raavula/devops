@@ -25,7 +25,7 @@ data:
       }
       output {
         elasticsearch {
-          hosts => ["elasticsearch-logging:9200"]
+          hosts => ["10.97.247.150:9200"]
       }
     }
 

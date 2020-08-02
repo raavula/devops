@@ -20,7 +20,7 @@ spec:
         image: docker.elastic.co/kibana/kibana-oss:6.8.4
         env:
           - name: ELASTICSEARCH_URL
-            value: http://10.103.237.6:9200
+            value: http://10.97.247.150:9200
         ports:
         - containerPort: 5601
           name: ui

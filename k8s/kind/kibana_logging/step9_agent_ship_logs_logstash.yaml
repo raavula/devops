@@ -55,7 +55,7 @@ data:
         # Reload module configs as they change:
         reload.enabled: false
     output.logstash:
-      hosts: ['logstash-service:5044']
+      hosts: ['10.110.248.32:5044']
 ---
 apiVersion: v1
 kind: ConfigMap
