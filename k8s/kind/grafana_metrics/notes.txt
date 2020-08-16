@@ -1,0 +1,17 @@
+Refer:
+https://dev.to/alialp/devops-kubernetes-helm-prometheus-grafana-in-ubuntu-19-302j
+
+
+kubectl get pods --namespace=kube-system
+helm repo update
+helm search stable/prometheus-operator --versions --version=">=8.0" --col-width=20
+
+helm install stable/prometheus-operator --version=8.2.0 --name=monitoring --namespace=monitoring
+kubectl get po --namespace=monitoring
+kubectl port-forward -n monitoring prometheus-monitoring-prometheus-oper-prometheus-0 3141
+kubectl port-forward $(kubectl get pods --selector=app=grafana -n monitoring --output=jsonpath="{.items..metadata.name}") -n monitoring 3000
+
+http://localhost:3000/
+
+helm delete monitoring --purge
+
